@@ -11,3 +11,18 @@ Note that it takes some time to inject the object so it might be beneficial
 to add 1 sec delay before your first function invokation to interact with the wallet.
 Otherwise no cardano object will be available and code will end up with error.
 
+Most likely that you will use this library in pair with CSL.
+Note that `Cbor`-strings of this library are `Hex`-encoded strings in terms of CSL.
+So for example if function `signTx` takes `tx` argument as `Cbor`
+we can get that from `CSL` tx by converting it to `Hex`-encoded string
+with `to_hex` method. Also to get meaningful data from return type of Cip30
+function we can use CSL's `from_hex` method.
+
+This library is low-level implementation so the export type are kept
+aligned with original implementation in Cip30. Use CSL converters like `to_hex`/`fro_hex`
+or `to_bytes`/`from_bytes` to match the types.
+
+The only improvement on tpye level which was take is to turn JS style promises
+to the more convenient for Purescript `Aff`-type.
+
+
