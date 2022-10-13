@@ -5,7 +5,6 @@
 -- injected by the wallet to the window.
 module Cardano.Wallet
   ( Api
-  , ApiVersion
   , Bytes
   , Cbor
   , Cip30DataSignature
@@ -40,8 +39,6 @@ import Data.Maybe (Maybe, fromMaybe)
 import Data.Nullable (Nullable)
 import Data.Nullable as Nullable
 import Data.Array (filterA)
-
-type ApiVersion = String
 
 type Bytes = String
 type Cbor = String
