@@ -134,7 +134,7 @@ flint = WalletName "flint"
 
 -- | Gero wallet name
 gero :: WalletName
-gero = WalletName "gero"
+gero = WalletName "gerowallet"
 
 ------------------------------------------------------------------------------------
 -- FFI
