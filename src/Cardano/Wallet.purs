@@ -11,6 +11,9 @@ module Cardano.Wallet
   , Paginate
   , WalletName(..)
   , enable
+  , apiVersion
+  , name
+  , icon
   , isEnabled
   , isWalletAvailable
   , getBalance
@@ -43,6 +46,7 @@ import Data.Array (filterA)
 type Bytes = String
 type Cbor = String
 type NetworkId = Int
+type DataUri = String
 
 type Paginate =
   { limit :: Int
@@ -59,9 +63,18 @@ type Cip30DataSignature =
 -- | Wrapper for wallet names. see nami, flint, etc for examples.
 newtype WalletName = WalletName String
 
+apiVersion :: WalletName -> Effect String
+apiVersion walletName = _apiVersion walletName
+
+name :: WalletName -> Effect String
+name walletName = _name walletName
+
+icon :: WalletName -> Effect DataUri
+icon walletName = _icon walletName
+
 -- | Enables wallet and reads Cip30 wallet API if wallet is available
 enable :: WalletName -> Aff Api
-enable (WalletName name) = toAffE (_getWalletApi name)
+enable walletName = toAffE (_getWalletApi walletName)
 
 getBalance :: Api -> Aff Cbor
 getBalance api = toAffE (_getBalance api)
@@ -151,6 +164,9 @@ foreign import _signTx :: Api -> Cbor -> Boolean -> Effect (Promise Cbor)
 foreign import _signData :: Api -> Cbor -> Bytes -> Effect (Promise Cip30DataSignature)
 foreign import _isEnabled :: WalletName -> Effect (Promise Boolean)
 foreign import _submitTx :: Api -> Cbor -> Effect (Promise String)
-foreign import _getWalletApi :: String -> Effect (Promise Api)
+foreign import _getWalletApi :: WalletName -> Effect (Promise Api)
+foreign import _apiVersion :: WalletName -> Effect String
+foreign import _name :: WalletName -> Effect String
+foreign import _icon :: WalletName -> Effect DataUri
 foreign import isWalletAvailable :: WalletName -> Effect Boolean
 

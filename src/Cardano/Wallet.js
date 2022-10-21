@@ -6,6 +6,15 @@ export const _getWalletApi = walletName => () =>
 export const _isEnabled = walletName => () => 
   window.cardano[walletName].isEnabled();
 
+export const _apiVersion = walletName => () => 
+  window.cardano[walletName].apiVersion;
+
+export const _name = walletName => () => 
+  window.cardano[walletName].name;
+
+export const _icon = walletName => () => 
+  window.cardano[walletName].icon;
+
 export const _getBalance = api => () => api.getBalance();
 export const _getChangeAddress = api => () => api.getChangeAddress();
 export const _getCollateral = api => params => () => api.getCollateral(params);
