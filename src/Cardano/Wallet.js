@@ -30,4 +30,9 @@ export const _submitTx = api => tx => () => api.submitTx(tx.to_hex());
 export const isWalletAvailable = walletName => () =>
    typeof window.cardano != "undefined" &&
    typeof window.cardano[walletName] != "undefined" &&
+   typeof window.cardano[walletName].apiVersion != "undefined" &&
    typeof window.cardano[walletName].enable == "function";
+
+export const allWalletTags = () =>
+    typeof window.cardano != "undefined" ?
+        Object.keys(window.cardano).filter(tag => typeof window.cardano[tag] == "object") : []

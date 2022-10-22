@@ -125,13 +125,14 @@ isEnabled = toAffE <<< _isEnabled
 -- It uses @allWallets@ under the hood and checks whether
 -- field that corresponds to wallet name available on cardano object
 availableWallets :: Effect (Array WalletName)
-availableWallets = filterA isWalletAvailable allWallets
+availableWallets = 
+  allWallets >>= \wallets -> filterA isWalletAvailable wallets
 
 -- | Get all available wallets.
 -- If you are missing your wallet it's easy to extend it
 -- by wrapping name tag to @WalletName@ newtype
-allWallets :: Array WalletName
-allWallets = [ nami, eternl, flint, gero ]
+allWallets :: Effect (Array WalletName)
+allWallets = map WalletName <$> allWalletTags
 
 -- | Eternl wallet name
 eternl :: WalletName
@@ -169,4 +170,5 @@ foreign import _apiVersion :: WalletName -> Effect String
 foreign import _name :: WalletName -> Effect String
 foreign import _icon :: WalletName -> Effect DataUri
 foreign import isWalletAvailable :: WalletName -> Effect Boolean
+foreign import allWalletTags :: Effect (Array String)
 
