@@ -8,9 +8,13 @@ module Cardano.Wallet
   , Bytes
   , Cbor
   , Cip30DataSignature
+  , NetworkId
   , Paginate
   , WalletName(..)
   , enable
+  , getApiVersion
+  , getName
+  , getIcon
   , isEnabled
   , isWalletAvailable
   , getBalance
@@ -43,6 +47,7 @@ import Data.Array (filterA)
 type Bytes = String
 type Cbor = String
 type NetworkId = Int
+type DataUri = String
 
 type Paginate =
   { limit :: Int
@@ -59,9 +64,18 @@ type Cip30DataSignature =
 -- | Wrapper for wallet names. see nami, flint, etc for examples.
 newtype WalletName = WalletName String
 
+getApiVersion :: WalletName -> Effect String
+getApiVersion walletName = _getApiVersion walletName
+
+getName :: WalletName -> Effect String
+getName walletName = _getName walletName
+
+getIcon :: WalletName -> Effect DataUri
+getIcon walletName = _getIcon walletName
+
 -- | Enables wallet and reads Cip30 wallet API if wallet is available
 enable :: WalletName -> Aff Api
-enable (WalletName name) = toAffE (_getWalletApi name)
+enable walletName = toAffE (_getWalletApi walletName)
 
 getBalance :: Api -> Aff Cbor
 getBalance api = toAffE (_getBalance api)
@@ -112,13 +126,14 @@ isEnabled = toAffE <<< _isEnabled
 -- It uses @allWallets@ under the hood and checks whether
 -- field that corresponds to wallet name available on cardano object
 availableWallets :: Effect (Array WalletName)
-availableWallets = filterA isWalletAvailable allWallets
+availableWallets = 
+  allWallets >>= \wallets -> filterA isWalletAvailable wallets
 
 -- | Get all available wallets.
 -- If you are missing your wallet it's easy to extend it
 -- by wrapping name tag to @WalletName@ newtype
-allWallets :: Array WalletName
-allWallets = [ nami, eternl, flint, gero ]
+allWallets :: Effect (Array WalletName)
+allWallets = map WalletName <$> allWalletTags
 
 -- | Eternl wallet name
 eternl :: WalletName
@@ -151,6 +166,10 @@ foreign import _signTx :: Api -> Cbor -> Boolean -> Effect (Promise Cbor)
 foreign import _signData :: Api -> Cbor -> Bytes -> Effect (Promise Cip30DataSignature)
 foreign import _isEnabled :: WalletName -> Effect (Promise Boolean)
 foreign import _submitTx :: Api -> Cbor -> Effect (Promise String)
-foreign import _getWalletApi :: String -> Effect (Promise Api)
+foreign import _getWalletApi :: WalletName -> Effect (Promise Api)
+foreign import _getApiVersion :: WalletName -> Effect String
+foreign import _getName :: WalletName -> Effect String
+foreign import _getIcon :: WalletName -> Effect DataUri
 foreign import isWalletAvailable :: WalletName -> Effect Boolean
+foreign import allWalletTags :: Effect (Array String)
 
