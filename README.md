@@ -1,7 +1,7 @@
 Purescript interface to Cardano Wallets over Cip30
 =========================================================
 
-Implements FFI for purescript to the Cardano XCip-30 wallet interface.
+Implements FFI for purescript to the Cardano Cip-30 wallet interface.
 See the [js](https://cips.cardano.org/cips/cip30/#apigetcollateralparamsamountcborcoinpromisetransactionunspentoutputnull) or [typescript](https://input-output-hk.github.io/cardano-js-sdk/modules/_cardano_sdk_cip30.html#SignTx) docs to match the functions:
 With this library we can interact with cardano in browser wallets 
 like Nami or Eternl if they support Cip30.
