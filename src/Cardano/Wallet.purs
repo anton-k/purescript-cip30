@@ -8,6 +8,7 @@ module Cardano.Wallet
   , Bytes
   , Cbor
   , Cip30DataSignature
+  , NetworkId
   , Paginate
   , WalletName(..)
   , enable
