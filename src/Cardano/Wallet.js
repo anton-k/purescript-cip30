@@ -6,13 +6,13 @@ export const _getWalletApi = walletName => () =>
 export const _isEnabled = walletName => () => 
   window.cardano[walletName].isEnabled();
 
-export const _apiVersion = walletName => () => 
+export const _getApiVersion = walletName => () => 
   window.cardano[walletName].apiVersion;
 
-export const _name = walletName => () => 
+export const _getName = walletName => () => 
   window.cardano[walletName].name;
 
-export const _icon = walletName => () => 
+export const _getIcon = walletName => () => 
   window.cardano[walletName].icon;
 
 export const _getBalance = api => () => api.getBalance();

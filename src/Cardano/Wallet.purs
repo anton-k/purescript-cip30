@@ -12,9 +12,9 @@ module Cardano.Wallet
   , Paginate
   , WalletName(..)
   , enable
-  , apiVersion
-  , name
-  , icon
+  , getApiVersion
+  , getName
+  , getIcon
   , isEnabled
   , isWalletAvailable
   , getBalance
@@ -64,14 +64,14 @@ type Cip30DataSignature =
 -- | Wrapper for wallet names. see nami, flint, etc for examples.
 newtype WalletName = WalletName String
 
-apiVersion :: WalletName -> Effect String
-apiVersion walletName = _apiVersion walletName
+getApiVersion :: WalletName -> Effect String
+getApiVersion walletName = _getApiVersion walletName
 
-name :: WalletName -> Effect String
-name walletName = _name walletName
+getName :: WalletName -> Effect String
+getName walletName = _getName walletName
 
-icon :: WalletName -> Effect DataUri
-icon walletName = _icon walletName
+getIcon :: WalletName -> Effect DataUri
+getIcon walletName = _getIcon walletName
 
 -- | Enables wallet and reads Cip30 wallet API if wallet is available
 enable :: WalletName -> Aff Api
@@ -167,9 +167,9 @@ foreign import _signData :: Api -> Cbor -> Bytes -> Effect (Promise Cip30DataSig
 foreign import _isEnabled :: WalletName -> Effect (Promise Boolean)
 foreign import _submitTx :: Api -> Cbor -> Effect (Promise String)
 foreign import _getWalletApi :: WalletName -> Effect (Promise Api)
-foreign import _apiVersion :: WalletName -> Effect String
-foreign import _name :: WalletName -> Effect String
-foreign import _icon :: WalletName -> Effect DataUri
+foreign import _getApiVersion :: WalletName -> Effect String
+foreign import _getName :: WalletName -> Effect String
+foreign import _getIcon :: WalletName -> Effect DataUri
 foreign import isWalletAvailable :: WalletName -> Effect Boolean
 foreign import allWalletTags :: Effect (Array String)
 
