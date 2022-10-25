@@ -24,7 +24,7 @@ export const _getUnusedAddresses = api => () => api.getUnusedAddresses();
 export const _getUsedAddresses = api => page => () => api.getUsedAddresses(page);
 export const _signTx = api => tx => partial => () => api.signTx(tx, partial);
 export const _signData = api => addr => payload => () => api.signData(addr, payload);
-export const _getUtxos = api => paginate => () => api.getUtxos(paginate);
+export const _getUtxos = api => paginate => () => api.getUtxos(paginate != null ? paginate : undefined);
 export const _submitTx = api => tx => () => api.submitTx(tx.to_hex());
 
 export const isWalletAvailable = walletName => () =>
